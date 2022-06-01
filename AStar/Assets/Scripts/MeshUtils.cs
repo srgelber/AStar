@@ -1,19 +1,14 @@
 ﻿/* 
-    ------------------- Code Monkey -------------------
-
-    Thank you for downloading this package
-    I hope you find it useful in your projects
-    If you have any questions let me know
-    Cheers!
-
-               unitycodemonkey.com
-    --------------------------------------------------
+CSC 378 Lab 6 - A*
+By: Simon Gelber
+Modified from Code Monkey A* Tutorial
  */
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//utility class for creating the grid meshes in PathfindingVisual
 public static class MeshUtils {
     
     private static readonly Vector3 Vector3zero = Vector3.zero;
@@ -22,6 +17,7 @@ public static class MeshUtils {
 
     
     private static Quaternion[] cachedQuaternionEulerArr;
+	//store QE
     private static void CacheQuaternionEuler() {
         if (cachedQuaternionEulerArr != null) return;
         cachedQuaternionEulerArr = new Quaternion[360];
@@ -29,6 +25,8 @@ public static class MeshUtils {
             cachedQuaternionEulerArr[i] = Quaternion.Euler(0,0,i);
         }
     }
+
+	//Get QE
     private static Quaternion GetQuaternionEuler(float rotFloat) {
         int rot = Mathf.RoundToInt(rotFloat);
         rot = rot % 360;
@@ -38,7 +36,7 @@ public static class MeshUtils {
         return cachedQuaternionEulerArr[rot];
     }
 
-
+	//create a new empty mesh
     public static Mesh CreateEmptyMesh() {
         Mesh mesh = new Mesh();
         mesh.vertices = new Vector3[0];
@@ -47,16 +45,19 @@ public static class MeshUtils {
         return mesh;
     }
 
+	//create an array of empty meshes
     public static void CreateEmptyMeshArrays(int quadCount, out Vector3[] vertices, out Vector2[] uvs, out int[] triangles) {
 		vertices = new Vector3[4 * quadCount];
 		uvs = new Vector2[4 * quadCount];
 		triangles = new int[6 * quadCount];
     }
         
+	//create non-empty mesh
     public static Mesh CreateMesh(Vector3 pos, float rot, Vector3 baseSize, Vector2 uv00, Vector2 uv11) {
         return AddToMesh(null, pos, rot, baseSize, uv00, uv11);
     }
 
+	//populate empty mesh with given data
     public static Mesh AddToMesh(Mesh mesh, Vector3 pos, float rot, Vector3 baseSize, Vector2 uv00, Vector2 uv11) {
         if (mesh == null) {
             mesh = CreateEmptyMesh();
@@ -118,6 +119,7 @@ public static class MeshUtils {
         return mesh;
     }
 
+	//add meshes to mesh array
     public static void AddToMeshArrays(Vector3[] vertices, Vector2[] uvs, int[] triangles, int index, Vector3 pos, float rot, Vector3 baseSize, Vector2 uv00, Vector2 uv11) {
 		//Relocate vertices
 		int vIndex = index*4;
