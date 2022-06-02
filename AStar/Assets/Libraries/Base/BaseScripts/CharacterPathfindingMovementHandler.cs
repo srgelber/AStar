@@ -1,13 +1,7 @@
 ﻿/* 
-    ------------------- Code Monkey -------------------
-
-    Thank you for downloading this package
-    I hope you find it useful in your projects
-    If you have any questions let me know
-    Cheers!
-
-               unitycodemonkey.com
-    --------------------------------------------------
+CSC 378 Lab 6 - A*
+By: Simon Gelber
+Modified from Code Monkey A* Tutorial
  */
 
 using System.Collections;
@@ -20,6 +14,7 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
 
     private const float speed = 40f;
 
+    //I had to add this reference to the debug visual so I could wait till it was finished
     public PathfindingDebugStepVisual inst;
 
     private V_UnitSkeleton unitSkeleton;
@@ -46,6 +41,7 @@ public class CharacterPathfindingMovementHandler : MonoBehaviour {
     }
     
     private void HandleMovement() {
+        //wait for visual to be complete
         if (pathVectorList != null && inst.visualCompleted() == true) {
             Vector3 targetPosition = pathVectorList[currentPathIndex];
             if (Vector3.Distance(transform.position, targetPosition) > 1f) {

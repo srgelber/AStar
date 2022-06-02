@@ -1,41 +1,37 @@
 ﻿/* 
-    ------------------- Code Monkey -------------------
-
-    Thank you for downloading this package
-    I hope you find it useful in your projects
-    If you have any questions let me know
-    Cheers!
-
-               unitycodemonkey.com
-    --------------------------------------------------
+CSC 378 Lab 6 - A*
+By: Simon Gelber
+Modified from Code Monkey A* Tutorial
  */
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//this is a basic script that updates the grid meshes as they are changed during the algorithm.
 public class PathfindingVisual : MonoBehaviour {
 
     private Grid<PathNode> grid;
     private Mesh mesh;
     private bool updateMesh;
-
+    //get meshes
     private void Awake() {
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
     }
-
+    //setup grid
     public void SetGrid(Grid<PathNode> grid) {
         this.grid = grid;
         UpdateVisual();
 
         grid.OnGridObjectChanged += Grid_OnGridValueChanged;
     }
-
+    //updated meshes on grid value changes
     private void Grid_OnGridValueChanged(object sender, Grid<PathNode>.OnGridObjectChangedEventArgs e) {
         updateMesh = true;
     }
 
+    //look for mesh updates in late update
     private void LateUpdate() {
         if (updateMesh) {
             updateMesh = false;
@@ -43,6 +39,7 @@ public class PathfindingVisual : MonoBehaviour {
         }
     }
 
+    //create empty mesh array and poplate with grid values to update grid and meshes
     private void UpdateVisual() {
         MeshUtils.CreateEmptyMeshArrays(grid.GetWidth() * grid.GetHeight(), out Vector3[] vertices, out Vector2[] uv, out int[] triangles);
 
