@@ -42,14 +42,14 @@ public class PathfindingVisual : MonoBehaviour {
     //create empty mesh array and poplate with grid values to update grid and meshes
     private void UpdateVisual() {
         MeshUtils.CreateEmptyMeshArrays(grid.GetWidth() * grid.GetHeight(), out Vector3[] vertices, out Vector2[] uv, out int[] triangles);
-
+        //iterate through whole grid
         for (int x = 0; x < grid.GetWidth(); x++) {
             for (int y = 0; y < grid.GetHeight(); y++) {
                 int index = x * grid.GetHeight() + y;
                 Vector3 quadSize = new Vector3(1, 1) * grid.GetCellSize();
 
                 PathNode pathNode = grid.GetGridObject(x, y);
-
+                //obstacles
                 if (pathNode.isWalkable) {
                     quadSize = Vector3.zero;
                 }
